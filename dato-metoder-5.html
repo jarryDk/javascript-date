@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Dato metoder version 5</title>
+	<style>
+		.date-block{
+			margin: 10px;
+			padding: 10px;
+			border-style: dashed;
+			width : 50%;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="content">
+	</div>
+
+	<script>
+
+		// Variable til repræsentation af dato
+		var day;
+		var month;
+		var year;
+		var monthName;
+
+		let firstHashmap = new Map();
+
+		//Måneds navn
+		let secondHasmap = new Map([
+			[1, "Januar"],
+			[2, "Febuar"],
+			[3, "Marts"],
+			[4, "April"],
+			[5, "Maj"],
+			[6, "Juni"],
+			[7, "Juli"],
+			[8, "Agust"],
+			[9, "September"],
+			[10, "Oktober"],
+			[11, "November"],
+			[12, "December"]
+		]);
+
+		// Funktion til tælle datoen en dag op
+		function setToNextDate() {
+			day = day + 1;
+			checkDayOverflow();
+		}
+
+		// Funktion returnere datoen
+		function getDateForHuman() {
+			return day + "-" + secondHasmap.get(month) + "-" + year;
+		}
+
+		function checkDayOverflow() {
+			if (day > daysInMonth()) {
+				day = 1;
+				month = month + 1;
+				monthName = monthName + 1;
+				checkMonthOverflow();
+			}
+		}
+
+		function checkMonthOverflow() {
+			if (month > 12) {
+				month = 1;
+				year = year + 1;
+			}
+		}
+
+		function daysInMonth() {
+			var daysInMonth =
+				[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+			result = daysInMonth[month - 1];
+			if (month == 2 && isLeapYear()) {
+				result = result + 1;
+			}
+			return result;
+		}
+
+		function isLeapYear() {
+			return (divides(4, year) && !divides(100, year))
+				|| divides(400, year);
+		}
+
+		function divides(a, b) {
+			return b % a == 0;
+		}
+
+		function test(day, month, year) {
+			var text1 = "Dagen efter ...";
+			this.day = day;
+			this.month = month;
+			this.year = year;
+			var dateForHuman = getDateForHuman();
+			setToNextDate();
+			var text2 = "... er ...";
+			var nextDateForHuman = getDateForHuman();
+			writeOutputBlock(text1, text2, dateForHuman, nextDateForHuman);
+		}
+
+		function writeOutputBlock(text1, text2, dateForHuman, nextDateForHuman) {
+			var block = document.createElement("div");
+			block.setAttribute("class", "date-block")
+			var text1Div = document.createElement("div");
+			text1Div.innerHTML = text1;
+			var text2Div = document.createElement("div");
+			text2Div.innerHTML = text2;
+			var dateForHumanDiv = document.createElement("div");
+			dateForHumanDiv.innerHTML = dateForHuman
+			var nextDateForHumanDiv = document.createElement("div");
+			nextDateForHumanDiv.innerHTML = nextDateForHuman;
+			block.appendChild(text1Div);
+			block.appendChild(dateForHumanDiv);
+			block.appendChild(text2Div);
+			block.appendChild(nextDateForHumanDiv);			
+			var content = document.getElementById("content");
+			content.appendChild(block);
+		}
+
+
+		// Test af programmet med udvalgte datoer
+		test(14, 5, 1979);
+		test(30, 4, 1979);
+		test(30, 5, 1979);
+		test(28, 2, 1979);
+		test(28, 2, 1980);
+		test(28, 2, 1900);
+		test(28, 2, 2000);
+		test(31, 12, 2016);
+	</script>
+
+</body>
+
+</html>

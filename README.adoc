@@ -1,0 +1,18 @@
+= Javascrip - date
+
+
+== browser-sync
+
+Start development
+
+[source,bash]
+----
+browser-sync start -f . -s
+----
+
+== browsersync
+
+[source,bash]
+----
+npm install -g browser-sync
+----
